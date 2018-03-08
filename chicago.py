@@ -1,6 +1,7 @@
 import sys
 import os
 import time
+from collections import OrderedDict
 
 
 def query1(all_lines):
@@ -33,8 +34,9 @@ def query2(all_lines):
 
 	for line in all_lines:
 		try:
-			key = line[15]
+			key = int(line[15])
 			value = float(line[13])
+			
 		except ValueError:
 			continue
 		if key in d:
@@ -42,10 +44,13 @@ def query2(all_lines):
 		else:
 			d[key] = [value]
 
+	od = OrderedDict(sorted(d.items()))
+
 	sum_d = {}
-	for key, value in d.items():
+	for key, value in od.items():
 		try:
 			sum_d[key] = sum(map(float, value))
+			sum_d[key] = round(sum_d[key],4)
 		except ValueError:
 			continue
 
@@ -112,6 +117,7 @@ if __name__ == "__main__":
 
 	for file in files:
 		with open(sys.argv[1]+'/'+file, "r") as f:
+			header = f.readline()
 			for line in f:
 				line=line.strip('\n')
 				newline=line.split(',')

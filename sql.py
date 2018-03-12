@@ -4,18 +4,14 @@ from pyspark.sql import functions as F
 
 sqlContext=SQLContext(sc)
 
-df=sqlContext.read.format("com.databricks.spark.csv").options(header="true").load("chicago_taxi_trips_2016_01.csv")
+df = spark.read.format("csv").option('header','true').load("chicago_taxi_trips_2016*.csv")
 
-df.show()
-
-df.dtypes()
-
+#df.show()
+#df.dtypes()
 df.select("trip_total").show()
+#df.head()
+#df.count()
+#df.schema
 
-df.head()
-
-df.count()
-
-df.schema
-
-F.sum(df.trip_total).alias("trip_total)
+total = dt.groupBy().agg(F.sum("trip_total")).collect()
+total

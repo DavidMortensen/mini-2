@@ -135,7 +135,15 @@ if __name__ == "__main__":
 
 	print('time for reading in files:', time.time() - start)
 
-	query1(all_lines)
-	query2(all_lines)
-	query3(all_lines)
-	query4(all_lines, names)
+	Q = sys.argv[3]
+
+	if Q == 'query1':
+		query1(all_lines)
+	elif Q == 'query2':
+		query2(all_lines)
+	elif Q == 'query3':
+		query3(all_lines)
+	elif Q == 'query4':
+		query4(all_lines, names)
+	else:
+		print('please choose either query1, query2, query3 or query4')

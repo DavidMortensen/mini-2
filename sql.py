@@ -16,7 +16,7 @@ df.select("trip_total").show()
 #df.count()
 #df.schema
 
-"""Query 1 """"
+"""Query 1 """
 #sum of column "trip_total"
 dt = df
 total = dt.groupBy().agg(F.sum("trip_total")).collect()
@@ -35,6 +35,19 @@ payment_type_df.groupBy("payment_type").agg(F.sum("trip_total").alias("payment_t
 
 
 """Query 4"""
-company_11_df.groupBy("id", "company").show()
+#reads in the driver file
+drivers=spark.read.option('header','false').csv("chicago_taxi_drivers.csv")
+#changing column name
+drivers=drivers.withColumnRenamed("_c0", "taxi_id")
+#joining driver file with dataframe
+total_df = dt.join(drivers, on=['taxi_id'], how = 'left_outer')
+total_df=join.withColumnRenamed("_c1", "driver_name")
+
+company_11=spark.sql("SELECT driver_name, company FROM total_df WHERE company='11'")
+company_11.show()
+company_11.count() #14 drivers from company 11
+
+
+
 
 

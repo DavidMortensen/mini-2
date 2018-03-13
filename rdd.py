@@ -42,5 +42,5 @@ print(total_sum.sum())
 #query 3 - sum cash trips:
 cash = data.map(lambda x: x[14]).filter(lambda x: x == 'Cash')
 cash_payments = cash.map(lambda x: x[13]).filter(lambda x: len(x) != 0)
-cash_total = cash_payments.map(lambda x: float(x))
-print(cash_tot.sum())
+cash_payments = cash_payments.map(lambda x: float(x))
+print(cash_payments.sum())

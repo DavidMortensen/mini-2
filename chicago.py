@@ -93,7 +93,7 @@ def query4(all_lines, names):
 			try:
 				for name in names:
 					if line[0]==name[0]:
-						name_list.add(name[1])
+						name_list.add(name[1].strip('\r'))
 			except:
 				pass
 		else:

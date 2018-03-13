@@ -2,7 +2,7 @@ from pyspark import SparkContext, SparkConf
 import csv
 sc = SparkContext (master = 'local[2]')
 
-data_temp = sc.textFile("chicago_taxi_trips_2016_01.csv")
+data_temp = sc.textFile("../chicago-taxi-rides-2016")
 
 #Removing header line
 data = data_temp.map(lambda line: line.split(','))

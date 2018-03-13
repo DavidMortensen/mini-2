@@ -43,7 +43,7 @@ drivers=drivers.withColumnRenamed("_c0", "taxi_id")
 total_df = dt.join(drivers, on=['taxi_id'], how = 'left_outer')
 total_df=join.withColumnRenamed("_c1", "driver_name")
 
-company_11=spark.sql("SELECT driver_name, company FROM total_df WHERE company='11'")
+company_11=spark.sql("SELECT DISTINCT driver_name, company FROM total_df WHERE company='11'")
 company_11.show()
 company_11.count() #14 drivers from company 11
 

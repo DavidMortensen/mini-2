@@ -53,4 +53,18 @@ cash_payments = cash.map(lambda x: x[13]).filter(lambda x: len(x) != 0)
 cash_payments = cash_payments.map(lambda x: float(x))
 print(cash_payments.sum())
 
+#query 4
+data_filtered = data.filter(lambda x: len(x[0]) != 0)
+data_filtered = data_filtered.filter(lambda x: len(x[15]) != 0)
+taxi_id = data_filtered.map(lambda x: x[0])
+company = data_filtered.map(lambda x: x[15])
+company = taxi_id.zip(company)
+company = company.filter(lambda x: x[1] == '11')
 
+company = company.distinct()
+joined = company.join(taxi_drivers)
+
+if not joined.isEmpty():
+    joined = joined.collect()
+    for item in joined:
+        print(item)

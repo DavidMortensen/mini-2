@@ -4,9 +4,11 @@ from pyspark.sql.types import *
 from pyspark.sql import functions as F
 
 sqlContext=SQLContext(sc)
+
 #loads in all files
 df = spark.read.format("csv").option('header','true').load("../chicago-taxi-rides-2016/chicago_taxi_trips_2016_*.csv")
 df_drivers = spark.read.format("csv").option('header','true').load("../chicago_taxi_drivers.csv") 
+
 
 #df.show()
 #df.dtypes()
@@ -36,16 +38,22 @@ payment_type_df.groupBy("payment_type").agg(F.sum("trip_total").alias("payment_t
 
 """Query 4"""
 #reads in the driver file
-drivers=spark.read.option('header','false').csv("chicago_taxi_drivers.csv")
-#changing column name
+drivers=spark.read.option('header','false').csv("../chicago_taxi_drivers.csv")
 drivers=drivers.withColumnRenamed("_c0", "taxi_id")
 #joining driver file with dataframe
 total_df = dt.join(drivers, on=['taxi_id'], how = 'left_outer')
-total_df=join.withColumnRenamed("_c1", "driver_name")
-
-company_11=spark.sql("SELECT DISTINCT driver_name, company FROM total_df WHERE company='11'")
+#new column name
+total_df=total_df.withColumnRenamed("_c1", "driver_name")
+#selecting distinct values
+company_11=total_df.where("company == 11").select(["company", "driver_name"]).distinct()
 company_11.show()
-company_11.count() #14 drivers from company 11
+company_11.count()
+
+
+
+#company_11=spark.sql("SELECT DISTINCT driver_name, company FROM total_df WHERE company='11'")
+#company_11.show()
+#company_11.count() #7 drivers from company 11
 
 
 

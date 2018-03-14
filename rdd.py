@@ -1,6 +1,6 @@
 from pyspark import SparkContext, SparkConf
 import csv
-sc = SparkContext (master = 'local[2]')
+sc = SparkContext (master = 'local[1]')
 
 data_temp = sc.textFile("../chicago-taxi-rides-2016")
 
@@ -62,7 +62,7 @@ company = taxi_id.zip(company)
 company = company.filter(lambda x: x[1] == '11')
 
 company = company.distinct()
-joined = company.join(taxi_drivers)
+joined = company.join(taxi_id)
 
 if not joined.isEmpty():
     joined = joined.collect()

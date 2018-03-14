@@ -4,6 +4,9 @@ sc = SparkContext (master = 'local[2]')
 
 data_temp = sc.textFile("../chicago-taxi-rides-2016")
 
+taxi_drivers = sc.textFile("../chicago_taxi_drivers.csv")
+taxi_drivers = taxi_drivers.map(lambda line: line.split(','))
+
 #Removing header line
 data = data_temp.map(lambda line: line.split(','))
 header = data.first()

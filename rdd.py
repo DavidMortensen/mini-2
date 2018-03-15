@@ -69,3 +69,12 @@ joined = company.join(taxi_drivers)
 
 names = joined.map(lambda x: x[1][1])
 names.collect()
+
+#query 4 other way
+
+taxi_id = data.filter(lambda x: x[15] == '11').map(lambda x: x[0])
+taxi_comp = data.filter(lambda x: x[15] == '11').map(lambda x: x[15])
+id_n_comp = taxi_id.zip(taxi_comp)
+joined = taxi_drivers.join(id_n_comp)
+names = joined.map(lambda x: x[1][0]).distinct()
+names.collect()

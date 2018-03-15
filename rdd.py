@@ -67,7 +67,5 @@ company = company.filter(lambda x: x[1] == '11')
 company = company.distinct()
 joined = company.join(taxi_drivers)
 
-if not joined.isEmpty():
-    joined = joined.collect()
-    for item in joined:
-        print(item)
+names = joined.map(lambda x: x[1][1])
+names.collect()

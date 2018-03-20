@@ -12,6 +12,10 @@ data = data_temp.map(lambda line: line.split(','))
 header = data.first()
 data = data.filter(lambda row: row != header)
 
+#OPTIONAL: Caching 
+data.cache()
+taxi_drivers.cache()
+
 """
 Index values: 
   'taxi_id', = 0

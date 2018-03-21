@@ -1,10 +1,10 @@
 # How to guide for Mini Project 2, group 9.
 ## SQL.py
-We used a python script file format so the commenting fits the same style throughout. The commands are to be copied into spark shell.
+We used a python syntax so the commenting fits the same style throughout. The commands are to be copied into spark shell.
 The file locations can be changed in the initial file load, currently it's based on our dir setup
 
 ## RDD.py
-Once again we used a python script file format because of commenting. 
+Once again we used a python syntax because of commenting.
 As with SQL, you are to just copy the contents from the file into spark shell.
 
 ## chicago.py

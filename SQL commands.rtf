@@ -1,0 +1,51 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1561\cocoasubrtf200
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 """ Initialize all files"""\
+from pyspark.sql import SQLContext\
+from pyspark.sql.types import *\
+from pyspark.sql import functions as F\
+\
+sqlContext=SQLContext(sc)\
+\
+# loads in all files\
+df = spark.read.format("csv").option('header','true').load(\'93../12/chicago_taxi_trips_2016_*.csv")\
+# load in drivers without removing header, we'll have to rename a column before use in query 4\
+df_drivers = spark.read.format("csv").option('header','false').load("../chicago_taxi_drivers.csv") \
+\
+df.select("trip_total").show()\
+\
+"""Query 1 """\
+# sum of column "trip_total"\
+dt = df\
+total = dt.groupBy().agg(F.sum("trip_total")).collect()\
+total\
+\
+"""Query 2"""\
+# define our column and convert to float so we can sum\
+company_total_df = df.withColumn("trip_total",df["trip_total"].cast('float'))\
+# groups by company and sums the value trip_total in the new column individual_trip_total\
+company_total_df.groupBy("company").agg(F.sum("trip_total").alias("individual_trip_total")).show()  \
+\
+"""Query 3"""\
+# define our column and convert to float so we can sum\
+payment_type_df = df.withColumn("trip_total",df["trip_total"].cast('float'))\
+# groups by company and sums the value trip_total in the new column individual_trip_total\
+payment_type_df.groupBy("payment_type").agg(F.sum("trip_total").alias("payment_type_total")).show() \
+\
+"""Query 4"""\
+# reads in the driver file\
+drivers = df_drivers\
+drivers=drivers.withColumnRenamed("_c0", "taxi_id")\
+#joining driver file with dataframe\
+total_df = dt.join(drivers, on=['taxi_id'], how = 'left_outer')\
+# new column name\
+total_df=total_df.withColumnRenamed("_c1", "driver_name")\
+# selecting distinct values\
+company_11=total_df.where("company == 11").select(["company", "driver_name"]).distinct()\
+company_11.show()\
+}
